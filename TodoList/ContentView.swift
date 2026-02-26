@@ -55,7 +55,7 @@ struct ContentView: View {
 // MARK: - HistoryListView
 
 private struct HistoryListView: View {
-    let viewModel: TodoViewModel
+    @ObservedObject var viewModel: TodoViewModel
 
     var body: some View {
         if viewModel.groupedHistory.isEmpty {
@@ -88,7 +88,7 @@ private struct HistoryListView: View {
 
 private struct TaskRow: View {
     let item: TodoItem
-    let viewModel: TodoViewModel
+    @ObservedObject var viewModel: TodoViewModel
 
     var body: some View {
         HStack {
