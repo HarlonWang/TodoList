@@ -31,8 +31,10 @@ struct ContentView: View {
 
             // --- 任务列表 ---
             ScrollView {
-                if viewModel.filteredTodos.isEmpty {
-                    Text(viewModel.showHistory ? "No history" : "No active tasks")
+                if viewModel.showHistory {
+                    HistoryListView(viewModel: viewModel)
+                } else if viewModel.filteredTodos.isEmpty {
+                    Text("No active tasks")
                         .foregroundColor(.gray)
                         .padding(.top, 20)
                 } else {
@@ -47,6 +49,38 @@ struct ContentView: View {
             .frame(maxHeight: 300)
         }
         .frame(width: 320)
+    }
+}
+
+// MARK: - HistoryListView
+
+private struct HistoryListView: View {
+    let viewModel: TodoViewModel
+
+    var body: some View {
+        if viewModel.groupedHistory.isEmpty {
+            Text("No history")
+                .foregroundColor(.gray)
+                .padding(.top, 20)
+        } else {
+            LazyVStack(alignment: .leading, spacing: 0) {
+                ForEach(viewModel.groupedHistory) { group in
+                    // 日期分组标题
+                    Text(group.label)
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal, 12)
+                        .padding(.top, 12)
+                        .padding(.bottom, 4)
+
+                    ForEach(group.items) { item in
+                        TaskRow(item: item, viewModel: viewModel)
+                    }
+                }
+            }
+            .padding(.bottom, 8)
+        }
     }
 }
 

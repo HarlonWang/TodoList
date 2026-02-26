@@ -19,6 +19,32 @@ final class TodoViewModel: ObservableObject {
         todos.filter { showHistory ? $0.isCompleted : !$0.isCompleted }
     }
 
+    // 历史记录按完成日期分组，最近的日期排在最前
+    var groupedHistory: [HistoryGroup] {
+        let calendar = Calendar.current
+        let grouped = Dictionary(grouping: todos.filter { $0.isCompleted }) { item -> Date in
+            let date = item.completedAt ?? item.createdAt
+            return calendar.startOfDay(for: date)
+        }
+        return grouped
+            .sorted { $0.key > $1.key }
+            .map { date, items in
+                HistoryGroup(
+                    day: date,
+                    label: Self.dayLabel(for: date, calendar: calendar),
+                    items: items.sorted { ($0.completedAt ?? .distantPast) > ($1.completedAt ?? .distantPast) }
+                )
+            }
+    }
+
+    private static func dayLabel(for date: Date, calendar: Calendar) -> String {
+        if calendar.isDateInToday(date) { return "今天" }
+        if calendar.isDateInYesterday(date) { return "昨天" }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "M 月 d 日"
+        return formatter.string(from: date)
+    }
+
     init() {
         load()
     }

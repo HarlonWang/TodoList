@@ -14,3 +14,10 @@ struct TodoItem: Identifiable, Codable {
     var createdAt: Date = Date()
     var completedAt: Date? = nil
 }
+
+struct HistoryGroup: Identifiable {
+    let id = UUID()
+    let day: Date
+    let label: String
+    let items: [TodoItem]
+}
