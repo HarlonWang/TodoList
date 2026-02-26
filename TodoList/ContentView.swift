@@ -1,14 +1,7 @@
-//
-//  ContentView.swift
-//  TodoList
-//
-//  Created by 王海龙 on 2026/2/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    // 使用 AppStorage 自动持久化到 UserDefaults，极简方案
+    // 使用 AppStorage 自动持久化到 UserDefaults
     @AppStorage("savedTodos") private var todosData: Data = Data()
     @State private var todos: [TodoItem] = []
     @State private var newTask: String = ""
@@ -23,12 +16,24 @@ struct ContentView: View {
                     .font(.system(size: 14))
                     .onSubmit { addTask() }
                 
-                // 切换历史记录按钮
+                // 1. 切换历史记录按钮
                 Button(action: { showHistory.toggle() }) {
                     Image(systemName: showHistory ? "clock.fill" : "clock")
                         .foregroundColor(showHistory ? .blue : .gray)
                 }
                 .buttonStyle(PlainButtonStyle())
+                .help("查看历史记录") // 鼠标悬停提示
+                
+                // 2. [新增] 退出 App 按钮
+                Button(action: {
+                    NSApplication.shared.terminate(nil) // 彻底退出程序
+                }) {
+                    Image(systemName: "power")
+                        .foregroundColor(.red.opacity(0.8))
+                }
+                .buttonStyle(PlainButtonStyle())
+                .help("退出应用")
+                .padding(.leading, 8)
             }
             .padding(12)
             .background(Color(NSColor.controlBackgroundColor))
@@ -61,7 +66,7 @@ struct ContentView: View {
                                 
                                 Spacer()
                                 
-                                // 删除按钮（仅鼠标悬停或简单点显示）
+                                // 删除按钮
                                 Button(action: { deleteTask(item) }) {
                                     Image(systemName: "xmark")
                                         .font(.caption)
@@ -87,7 +92,7 @@ struct ContentView: View {
     func addTask() {
         guard !newTask.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         let item = TodoItem(title: newTask)
-        todos.insert(item, at: 0) // 新任务在最前
+        todos.insert(item, at: 0)
         newTask = ""
         saveData()
     }
@@ -104,7 +109,6 @@ struct ContentView: View {
         saveData()
     }
     
-    // JSON 序列化存储
     func saveData() {
         if let data = try? JSONEncoder().encode(todos) {
             todosData = data
