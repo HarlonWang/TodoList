@@ -22,7 +22,7 @@ struct ContentView: View {
                         .foregroundColor(viewModel.showHistory ? .blue : .gray)
                 }
                 .buttonStyle(PlainButtonStyle())
-                .help("查看历史记录")
+                .help(viewModel.showHistory ? "返回待办列表" : "查看历史记录")
             }
             .padding(12)
             .background(Color(NSColor.controlBackgroundColor))
