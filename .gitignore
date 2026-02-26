@@ -1,0 +1,21 @@
+# Xcode
+.DS_Store
+*/build/
+*.derivedData
+*.scc
+*.xccheckout
+*.xccurrentversion
+*.xcworkspace
+!default.xcworkspace
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+
+# Swift Package Manager
+.build/
+
+# Other
+*.moved-aside
+*.map
+*.ipa
+*.pkg
