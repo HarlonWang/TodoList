@@ -2,6 +2,12 @@
 
 一款 macOS 菜单栏 Todo App，基于 SwiftUI + MVVM 架构构建，轻量、无干扰，随时从状态栏快速记录任务。
 
+## 预览
+
+| 待办任务 | 历史记录 |
+|:---:|:---:|
+| ![待办任务](assets/screenshot_todo.png) | ![历史记录](assets/screenshot_history.png) |
+
 ## 功能特性
 
 - **极简**：无独立窗口，不占 Dock 栏，不打扰工作流，用完即走
