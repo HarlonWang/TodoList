@@ -30,11 +30,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentViewController = NSHostingController(rootView: ContentView())
         self.popover = popover
 
-        // 2. 创建状态栏图标
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        // 2. 创建状态栏图标（squareLength 最小化占位，减少被系统截断的概率）
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "checklist", accessibilityDescription: "Todo List")
+            let image = NSImage(systemSymbolName: "checklist", accessibilityDescription: "Todo List")
+            image?.isTemplate = true // 自动适配深色/浅色模式
+            button.image = image
             button.action = #selector(handleClick)
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
