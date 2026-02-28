@@ -8,6 +8,16 @@
 |:---:|:---:|
 | ![待办任务](assets/screenshot_todo.png) | ![历史记录](assets/screenshot_history.png) |
 
+## 技术架构
+
+```
+TodoList/
+├── TodoListApp.swift     # App 入口，菜单栏图标与 Popover 管理
+├── Task.swift            # 数据模型（TodoItem、HistoryGroup）
+├── TodoViewModel.swift   # ViewModel，业务逻辑与持久化
+└── ContentView.swift     # UI 层（ContentView、HistoryListView、TaskRow）
+```
+
 ## 系统要求
 
 - macOS 12.0+
