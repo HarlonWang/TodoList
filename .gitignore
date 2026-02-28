@@ -19,3 +19,6 @@ xcuserdata/
 *.map
 *.ipa
 *.pkg
+*.dmg
+build/
+scripts/
